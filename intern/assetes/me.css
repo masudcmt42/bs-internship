@@ -28,10 +28,16 @@ dl, dt, dd, ol, ul, li
     body.page-fullsingle-me p {
       margin-bottom: 28px;
       color: #999999; }
-      @media (max-width: 800px) {
-        body.page-fullsingle-me p {
-          font-size: 32px;
-          line-height: 40px; } }
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+@keyframes fadein {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
 
 .fs-me {
   padding: 10vh 10vw;
