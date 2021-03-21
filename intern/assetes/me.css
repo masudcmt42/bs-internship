@@ -106,3 +106,36 @@ dl, dt, dd, ol, ul, li
             animation: fadein 6s;
     margin-top: auto; }
 
+.network ul {
+-webkit-animation: fadein 6s;
+        animation: fadein 6s;
+margin-top: auto; }
+.network ul li {
+        display: inline-block;
+        margin-right: 8px; }
+        .network ul li a {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        cursor: pointer; }
+        .network ul li a .svg-icon {
+        padding: 4px;
+        width: 22px;
+        height: 22px;
+        margin: 0;
+        display: block; }
+        .network ul li a .svg-icon path,
+        .network ul li a .svg-icon polygon,
+        .network ul li a .svg-icon rect {
+        fill: #999999;
+        -webkit-transition: 1s;
+        transition: 1s; }
+        .network ul li a .svg-icon circle {
+        stroke: #999999;
+        stroke-width: 1; }
+        .network ul li a:hover .svg-icon path,
+        .network ul li a:hover .svg-icon polygon,
+        .network ul li a:hover .svg-icon rect {
+        fill: #FFFFFF;
+        -webkit-transition: 0.1s;
+        transition: 0.1s; }
