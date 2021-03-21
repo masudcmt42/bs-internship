@@ -85,3 +85,7 @@ dl, dt, dd, ol, ul, li
             animation: fadein 4s;
     letter-spacing: -1px;
     max-width: 66%; }
+    .bio a {
+        color: #CCCCCC;
+        -webkit-transition: 1s;
+        transition: 1s; }
