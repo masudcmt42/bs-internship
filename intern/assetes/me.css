@@ -21,6 +21,9 @@ dl, dt, dd, ol, ul, li
     font-size: 45px;
     line-height: 60px;
     letter-spacing: -0.5px;
+    background-image: url("background.jpg");
+    background-position: center center;
+    background-size: cover;
     color: #999999; }
     body.page-fullsingle-me p {
       margin-bottom: 28px;
