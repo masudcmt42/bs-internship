@@ -18,8 +18,8 @@ class Connction:
         port=self.DB_PORT,
         database=db
         )
-data = Connction()
-if data.makeConnection():
-    print("Connected")
-else:
-    print("Error")
+# data = Connction()
+# if data.makeConnection():
+#     print("Connected")
+# else:
+#     print("Error")
