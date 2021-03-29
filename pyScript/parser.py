@@ -53,13 +53,11 @@ def bulkInsert(con, json):
 conn = Connction()
 con = conn.makeConnection()
 j = json.loads(open(path, "r").read())
-if args.option == 'insert':
-    if con: 
+if con:
+    if args.option == 'insert':
         bulkInsert(con,j)
-elif args.option == 'update':
-    if con:
+    elif args.option == 'update':
         update(con,j)
-elif args.option == 'update-on-conflict':
-    if con:
+    elif args.option == 'update-on-conflict':
         updateOnConflict(con,j)
 con.close()
