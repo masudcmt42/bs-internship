@@ -2,6 +2,7 @@
 import argparse
 import sys
 import json
+import psycopg2.extras
 from dbConnection import Connction
 
 parser = argparse.ArgumentParser()
@@ -36,9 +37,16 @@ def updateOnConflict(con,json):
 def bulkInsert(con, json):
     cur = con.cursor()
     cur.execute("DROP TABLE IF EXISTS test;")
-    cur.execute("CREATE TABLE test (uuid varchar PRIMARY KEY, data varchar, min NUMERIC, max NUMERIC, avg NUMERIC);")
-    for x in json:
-        cur.execute("INSERT INTO test (uuid, data, min, max, avg) VALUES (%s, %s, %s, %s, %s);", (x['uuid'], x['data'], x['min'], x['max'], x['avg']))
+    cur.execute("CREATE TABLE test (uuid varchar PRIMARY KEY, data varchar, min NUMERIC, max NUMERIC, avg NUMERIC);")    
+    psycopg2.extras.execute_batch(cur, """
+            INSERT INTO test VALUES (
+                %(uuid)s,
+                %(data)s,
+                %(min)s,
+                %(max)s,
+                %(avg)s
+            );
+        """, json)
     con.commit()
     cur.close()
 

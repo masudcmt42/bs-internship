@@ -2,6 +2,8 @@ import json
 import sys
 import argparse
 from dbConnection import Connction
+import psycopg2.extras
+
 
 parser = argparse.ArgumentParser()
 
@@ -25,11 +27,31 @@ def updateOnConflict(con,json):
     con.commit()
     cur.close()
         
+        
+        
+        
+def bulklInsert(con, json):
+    cur = con.cursor()
+    cur.execute("DROP TABLE IF EXISTS test;")
+    cur.execute("CREATE TABLE test (uuid varchar PRIMARY KEY, data varchar, min NUMERIC, max NUMERIC, avg NUMERIC);")    
+    psycopg2.extras.execute_batch(cur, """
+            INSERT INTO test VALUES (
+                %(uuid)s,
+                %(data)s,
+                %(min)s,
+                %(max)s,
+                %(avg)s
+            );
+        """, json)
+    con.commit()
+    cur.close()
+        
+        
 conn = Connction()
 con=conn.makeConnection()
 if con:
     j = json.loads(open('data.json', "r").read())
-    updateOnConflict(con,j)
+    bulklInsert(con,j)
     con.close()
 else:
     print("Database not connected")
