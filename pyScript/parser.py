@@ -19,8 +19,14 @@ def update(con, json):
     cur.execute("SELECT EXISTS (SELECT FROM information_schema.tables WHERE  table_schema = 'public' AND table_name   = 'test');")
     if not cur.fetchone()[0]: 
         cur.execute("CREATE TABLE test (uuid varchar PRIMARY KEY, data varchar, min NUMERIC, max NUMERIC, avg NUMERIC);")
-    for x in json:
-        cur.execute("INSERT INTO test (uuid, data, min, max, avg) VALUES (%s, %s, %s, %s, %s)ON CONFLICT (uuid) DO NOTHING;", (x['uuid'], x['data'], x['min'], x['max'], x['avg']))
+    psycopg2.extras.execute_batch(cur, """
+                INSERT INTO test (uuid, data, min, max, avg) VALUES (
+                     %(uuid)s,
+                    %(data)s,
+                     %(min)s,
+                    %(max)s,
+                    %(avg)s
+                    )ON CONFLICT (uuid) DO NOTHING;""", json)
     con.commit()
     cur.close()
 
@@ -29,8 +35,14 @@ def updateOnConflict(con,json):
     cur.execute("SELECT EXISTS (SELECT FROM information_schema.tables WHERE  table_schema = 'public' AND table_name   = 'test');")
     if not cur.fetchone()[0]: 
         cur.execute("CREATE TABLE test (uuid varchar PRIMARY KEY, data varchar, min NUMERIC, max NUMERIC, avg NUMERIC);")
-    for x in json:
-        cur.execute("INSERT INTO test (uuid, data, min, max, avg) VALUES (%s, %s, %s, %s, %s)ON CONFLICT (uuid) DO UPDATE SET data=EXCLUDED.data, min=EXCLUDED.min, max=EXCLUDED.max, avg=EXCLUDED.avg;", (x['uuid'], x['data'], x['min'], x['max'], x['avg']))
+    psycopg2.extras.execute_batch(cur, """
+            INSERT INTO test (uuid, data, min, max, avg) VALUES (
+                %(uuid)s,
+                %(data)s,
+                %(min)s,
+                %(max)s,
+                %(avg)s
+        )ON CONFLICT (uuid) DO UPDATE SET data=EXCLUDED.data, min=EXCLUDED.min, max=EXCLUDED.max, avg=EXCLUDED.avg;""", json)
     con.commit()
     cur.close()
 
